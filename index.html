@@ -5,30 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Voltage Divider Calculator</title>
     <style>
-      :root{--primary-color:#2c3e50;--secondary-color:#3498db;--background-color:#f5f6fa;--success-color:#2ecc71;--warning-color:#e74c3c}
-      *{box-sizing:border-box;margin:0;padding:0}
-      body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;background-color:var(--background-color);padding:20px}
-      .container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px}
-      .calculator-section,.preview-section{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 10px #0000001a}
-      .full-width{grid-column:1 / -1}
-      h1,h2{color:var(--primary-color);margin-bottom:20px}
-      .input-group{margin-bottom:15px}
-      label{display:block;margin-bottom:5px;color:var(--primary-color);font-weight:700}
-      input[type="number"],select{width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;font-size:16px}
-      .results{margin-top:20px;padding:15px;background-color:#f8f9fa;border-radius:4px}
-      .result-item{margin-bottom:10px;padding:8px;background:#fff;border-radius:4px;border-left:4px solid var(--secondary-color)}
-      canvas{width:100%;height:300px;border:1px solid #ddd;border-radius:4px}
-      .warning{color:var(--warning-color);font-size:.9em;margin-top:5px}
-      .power-calculation{margin-top:15px;padding:10px;background-color:#e8f4f8;border-radius:4px}
-      .e-series{margin-top:15px;padding:10px;background-color:#f0f0f0;border-radius:4px}
-      @media (max-width: 768px) {
-      .container{grid-template-columns:1fr}
-      }
+    :root{--primary-color:#2c3e50;--secondary-color:#3498db;--background-color:#f5f6fa;--success-color:#2ecc71;--warning-color:#e74c3c}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;line-height:1.6;background-color:var(--background-color);padding:20px}
+    .container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .calculator-section,.preview-section{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 10px #0000001a}
+    .full-width{grid-column:1 / -1}
+    h1,h2{color:var(--primary-color);margin-bottom:20px}
+    .input-group{margin-bottom:15px}
+    label{display:block;margin-bottom:5px;color:var(--primary-color);font-weight:700}
+    input[type="number"],select{width:100%;padding:8px;border:1px solid #ddd;border-radius:4px;font-size:16px}
+    .results{margin-top:20px;padding:15px;background-color:#f8f9fa;border-radius:4px}
+    .result-item{margin-bottom:10px;padding:8px;background:#fff;border-radius:4px;border-left:4px solid var(--secondary-color)}
+    canvas{width:100%;height:300px;border:1px solid #ddd;border-radius:4px}
+    .warning{color:var(--warning-color);font-size:.9em;margin-top:5px}
+    .power-calculation{margin-top:15px;padding:10px;background-color:#e8f4f8;border-radius:4px}
+    .e-series{margin-top:15px;padding:10px;background-color:#f0f0f0;border-radius:4px}
+    @media (max-width: 768px) {
+    .container{grid-template-columns:1fr}
+    }
+    .language-selector {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+    .language-selector select {
+        padding: 5px;
+        border-radius: 4px;
+        border: 1px solid var(--primary-color);
+        background-color: white;
+        cursor: pointer;
+    }
 
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="full-width">
+            <div class="language-selector">
+                <select id="languageSelect" onchange="changeLanguage()">
+                    <option value="en">English</option>
+                    <option value="tr">Türkçe</option>
+                </select>
+            </div>
+            <h1 id="mainTitle">Advanced Voltage Divider Calculator</h1>
+        </div>
+
         <div class="full-width">
             <h1>Advanced Voltage Divider Calculator</h1>
         </div>
@@ -265,6 +287,113 @@
 
         // Handle window resize
         window.addEventListener('resize', calculateVoltageDivider);
+
+        const translations = {
+            en: {
+                mainTitle: "Advanced Voltage Divider Calculator",
+                inputParameters: "Input Parameters",
+                inputVoltage: "Input Voltage (V)",
+                targetVoltage: "Target Output Voltage (V)",
+                loadCurrent: "Expected Load Current (mA)",
+                tolerance: "Resistor Tolerance",
+                eSeries: "E-Series",
+                calculatedResults: "Calculated Results",
+                circuitPreview: "Circuit Preview",
+                powerCalculations: "Power Calculations",
+                r1PowerDissipation: "R1 Power Dissipation:",
+                r2PowerDissipation: "R2 Power Dissipation:",
+                recommendedSpecs: "Recommended Resistor Specifications:",
+                actualOutput: "Actual Output:",
+                warning: "Warning:"
+            },
+            tr: {
+                mainTitle: "Gelişmiş Gerilim Bölücü Hesaplayıcı",
+                inputParameters: "Giriş Parametreleri",
+                inputVoltage: "Giriş Gerilimi (V)",
+                targetVoltage: "Hedef Çıkış Gerilimi (V)",
+                loadCurrent: "Beklenen Yük Akımı (mA)",
+                tolerance: "Direnç Toleransı",
+                eSeries: "E-Serisi",
+                calculatedResults: "Hesaplanan Sonuçlar",
+                circuitPreview: "Devre Önizlemesi",
+                powerCalculations: "Güç Hesaplamaları",
+                r1PowerDissipation: "R1 Güç Tüketimi:",
+                r2PowerDissipation: "R2 Güç Tüketimi:",
+                recommendedSpecs: "Önerilen Direnç Özellikleri:",
+                actualOutput: "Gerçek Çıkış:",
+                warning: "Uyarı:"
+            }
+        };
+        
+        function changeLanguage() {
+            const lang = document.getElementById('languageSelect').value;
+            const t = translations[lang];
+            
+            // Update all text content
+            document.getElementById('mainTitle').textContent = t.mainTitle;
+            document.querySelector('.calculator-section h2').textContent = t.inputParameters;
+            document.querySelector('label[for="inputVoltage"]').textContent = t.inputVoltage;
+            document.querySelector('label[for="targetVoltage"]').textContent = t.targetVoltage;
+            document.querySelector('label[for="loadCurrent"]').textContent = t.loadCurrent;
+            document.querySelector('label[for="tolerance"]').textContent = t.tolerance;
+            document.querySelector('label[for="eSeries"]').textContent = t.eSeries;
+            document.querySelector('.results h3').textContent = t.calculatedResults;
+            document.querySelector('.preview-section h2').textContent = t.circuitPreview;
+            
+            // Recalculate to update all dynamic content
+            calculateVoltageDivider();
+        }
+        
+        // Modify the updateResults function to use translations
+        function updateResults(R1, R2, Vout, P_R1, P_R2, tolerance) {
+            const lang = document.getElementById('languageSelect').value;
+            const t = translations[lang];
+            
+            const resultsDiv = document.getElementById('calculationResults');
+            const powerDiv = document.getElementById('powerCalculation');
+            const standardDiv = document.getElementById('standardValues');
+        
+            resultsDiv.innerHTML = `
+                <div class="result-item">R1: ${formatResistor(R1)} Ω</div>
+                <div class="result-item">R2: ${formatResistor(R2)} Ω</div>
+                <div class="result-item">${t.actualOutput} ${Vout.toFixed(3)} V</div>
+            `;
+        
+            powerDiv.innerHTML = `
+                <h4>${t.powerCalculations}:</h4>
+                <p>${t.r1PowerDissipation} ${(P_R1 * 1000).toFixed(2)} mW</p>
+                <p>${t.r2PowerDissipation} ${(P_R2 * 1000).toFixed(2)} mW</p>
+            `;
+        
+            standardDiv.innerHTML = `
+                <h4>${t.recommendedSpecs}</h4>
+                <p>R1: ${formatResistor(R1)} Ω ±${tolerance}%, min ${(P_R1 * 1000).toFixed(2)}mW</p>
+                <p>R2: ${formatResistor(R2)} Ω ±${tolerance}%, min ${(P_R2 * 1000).toFixed(2)}mW</p>
+            `;
+        }
+        
+        // Modify the checkWarnings function to use translations
+        function checkWarnings(targetVout, actualVout, P_R1, P_R2, tolerance) {
+            const lang = document.getElementById('languageSelect').value;
+            const t = translations[lang];
+            
+            const warningsDiv = document.getElementById('warnings');
+            let warnings = [];
+        
+            const voltageError = Math.abs(targetVout - actualVout) / targetVout * 100;
+            if (voltageError > tolerance) {
+                warnings.push(`${t.warning} ${t.voltageDeviation} (${voltageError.toFixed(2)}%)`);
+            }
+        
+            if (P_R1 > 0.25) {
+                warnings.push(`${t.warning} R1 ${t.powerHigh} (${(P_R1 * 1000).toFixed(2)}mW)`);
+            }
+            if (P_R2 > 0.25) {
+                warnings.push(`${t.warning} R2 ${t.powerHigh} (${(P_R2 * 1000).toFixed(2)}mW)`);
+            }
+        
+            warningsDiv.innerHTML = warnings.map(w => `<div class="warning">${w}</div>`).join('');
+        }
     </script>
 </body>
 </html>
